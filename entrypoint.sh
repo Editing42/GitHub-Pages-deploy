@@ -1,3 +1,4 @@
+  
 #!/bin/sh
 set -e
 
@@ -7,28 +8,34 @@ then
   echo "A verified email is required"
   exit 1
 fi
-REPONAME="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 2)"
-OWNER="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 1)"
-GHIO="${OWNER}.github.io"
-# target branch
-if [[ "$REPONAME" == "$GHIO" ]]; then
-  TARGET_BRANCH="master"
+
+if [-z "$REPO" ]
+then
+  REPONAME="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 2)"
 else
-  TARGET_BRANCH="gh-pages"
+  REPONAME="$REPO"
+fi
+
+OWNER="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 1)"
+
+# target branch
+if [-z "$TARGET_BRANCH" ]
+  echo "You need provide the action with a branch name it should deploy to"
+  exit 1
 fi
 # build dir
 if [ -z "$BUILD_DIR" ]
 then
-  BUILD_DIR="_site"
+  BUILD_DIR="public"
 fi
 
-echo "### Started deploy to $GITHUB_REPOSITORY/$TARGET_BRANCH"
+echo "### Started deploy to $REPONAME/$TARGET_BRANCH"
 
 cp -R $BUILD_DIR $HOME/$BUILD_DIR
 cd $HOME
 git config --global user.name "$GITHUB_ACTOR"
 git config --global user.email "$EMAIL"
-git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git $TARGET_BRANCH > /dev/null
+git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPONAME}.git $TARGET_BRANCH > /dev/null
 cp -R gh-pages/.git $HOME/.git
 rm -rf gh-pages/*
 cp -R $HOME/.git gh-pages/.git
