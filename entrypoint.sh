@@ -37,10 +37,10 @@ cd $HOME
 git config --global user.name "$GITHUB_ACTOR"
 git config --global user.email "$EMAIL"
 git clone --quiet --branch=$TARGET_BRANCH https://${GH_TOKEN}@github.com/${REPONAME}.git $TARGET_BRANCH > /dev/null
-cp -R gh-pages/.git $HOME/.git
-rm -rf gh-pages/*
-cp -R $HOME/.git gh-pages/.git
-cd gh-pages
+cp -R $TARGET_BRANCH/.git $HOME/.git
+rm -rf $TARGET_BRANCH/*
+cp -R $HOME/.git $TARGET_BRANCH/.git
+cd $TARGET_BRANCH
 cp -Rf $HOME/${BUILD_DIR}/* .
 # custom domain?
 if [ ! -z "$CNAME" ]
