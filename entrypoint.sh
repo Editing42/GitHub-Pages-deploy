@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-if [-z "$REPO" ]
+if [ -z "$REPO" ]
 then
   REPONAME="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 2)"
 else
@@ -18,10 +18,12 @@ fi
 OWNER="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 1)"
 
 # target branch
-if [-z "$TARGET_BRANCH" ]
+if [ -z "$TARGET_BRANCH" ]
+then
   echo "You need provide the action with a branch name it should deploy to"
   exit 1
 fi
+
 # build dir
 if [ -z "$BUILD_DIR" ]
 then
