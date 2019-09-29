@@ -48,12 +48,7 @@ then
   echo "Add custom domain file"
   echo "$CNAME" > CNAME
 fi
-# .nojekyll
-if [ "$JEKYLL_SITE" != "YES" ]
-then
-  echo "Disable Jekyll"
-  touch .nojekyll
-fi
+
 # Nothing to deploy?
 if [ -z "$(git status --porcelain)" ]; then
   echo "Nothing to deploy"
