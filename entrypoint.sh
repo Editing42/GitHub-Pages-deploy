@@ -30,6 +30,9 @@ then
   BUILD_DIR="public"
 fi
 
+# commit message
+COMMIT_EDITMSG="$(git log --pretty=%s -1)"
+
 echo "### Started deploy to $REPONAME/$TARGET_BRANCH"
 
 cp -R $BUILD_DIR $HOME/$BUILD_DIR
@@ -54,7 +57,7 @@ if [ -z "$(git status --porcelain)" ]; then
   echo "Nothing to deploy"
 else
   git add -Af .
-  git commit -m "$GITHUB_ACTOR published a site update"
+  git commit -m "$GITHUB_ACTOR published a site update to $COMMIT_EDITMSG"
   git push -fq origin $TARGET_BRANCH > /dev/null
 fi
 
