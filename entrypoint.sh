@@ -57,7 +57,7 @@ if [ -z "$(git status --porcelain)" ]; then
   echo "Nothing to deploy"
 else
   git add -Af .
-  git commit -m "$GITHUB_ACTOR published a site update to $COMMIT_EDITMSG"
+  git commit -m "$COMMIT_EDITMSG"
   git push -fq origin $TARGET_BRANCH > /dev/null
 fi
 
